@@ -1,34 +1,24 @@
 package com.game.templejog;
 
-import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
 
 public class Temple {
-    private Map<String,Room> easymap;
-    private Map<String,Encounter> encounters;
-    private Map<String,Item> items;
+    private HashMap<String,Room> easymap;
+    private HashMap<String,Encounter> encounters;
+    private HashMap<String,Item> items;
+    private Player player;
+    private HashMap<String,String> gameText;
 
-    public Map<String, Room> getEasymap() {
-        return easymap;
-    }
 
-    public void setEasymap(Map<String, Room> easymap) {
-        this.easymap = easymap;
-    }
-
-    public Map<String, Encounter> getEncounters() {
-        return encounters;
-    }
-
-    public void setEncounters(Map<String, Encounter> encounters) {
-        this.encounters = encounters;
-    }
-
-    public Map<String, Item> getItems() {
-        return items;
-    }
-
-    public void setItems(Map<String, Item> items) {
-        this.items = items;
-    }
+//  ACCESSOR METHODS
+    public HashMap<String, Room> getEasymap() { return easymap; }
+    public void setEasymap(HashMap<String, Room> easymap) { this.easymap = easymap; }
+    public HashMap<String, Encounter> getEncounters() { return encounters; }
+    public void setEncounters(HashMap<String, Encounter> encounters) { this.encounters = encounters; }
+    public HashMap<String, Item> getItems() { return items; }
+    public void setItems(HashMap<String, Item> items) { this.items = items; }
+    public Player getPlayer() { return player; }
+    public void setPlayer(Player player) { this.player = player; }
+    public HashMap<String, String> getGameText() { return gameText; }
+    public void setGameText(HashMap<String, String> gameText) { this.gameText = gameText; }
 }

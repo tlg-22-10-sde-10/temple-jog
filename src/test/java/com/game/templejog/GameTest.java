@@ -2,6 +2,7 @@ package com.game.templejog;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.game.templejog.client.FileLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -43,25 +44,8 @@ class GameTest {
     }
     public Game generateGameFromJSON() throws IOException {
         Game gameJSON;
-        HashMap<String, Room> roomsMap = new HashMap<>();
-        HashMap<String, Encounter> encountersMap = new HashMap<>();
-        HashMap<String, Item> itemsMap = new HashMap<>();
-        File jsonFile = new File("JSON/maps.json");
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode root = objectMapper.readTree(jsonFile);
-        for (JsonNode rm : root.get("easymap")) {
-            Room roomObj = objectMapper.treeToValue(rm, Room.class);
-            roomsMap.put( roomObj.number >= 10 ? ("room" + roomObj.number) : ("room0" + roomObj.number), roomObj );
-        }
-        for (JsonNode encounter : root.get("encounters")) {
-            Encounter encounterObj = objectMapper.treeToValue(encounter, Encounter.class);
-            encountersMap.put(encounterObj.name, encounterObj);
-        }
-        for (JsonNode item : root.get("items")){
-            Item itemObj = objectMapper.treeToValue(item, Item.class);
-            itemsMap.put(itemObj.getName(),itemObj);
-        }
-        gameJSON = new Game(new Player(), roomsMap, encountersMap, itemsMap);
+        Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
+        gameJSON = new Game(gameFiles.getPlayer(), gameFiles.getEasymap(), gameFiles.getEncounters(), gameFiles.getItems());
         return gameJSON;
     }
 //CONTROLLERS

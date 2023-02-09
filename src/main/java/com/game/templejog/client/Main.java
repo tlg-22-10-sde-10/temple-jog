@@ -1,20 +1,12 @@
 package com.game.templejog.client;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.game.templejog.*;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.InputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
 // ENTRY
         ConsoleInterface.clearScreen();
@@ -34,39 +26,14 @@ public class Main {
 
 // LOAD GAME
         if (playerInput.equals("y")) {
-// TODO: Implement TEMPLE CLASS
-//            try(InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("JSON/maps.json")){
-//                ObjectMapper mapper = new ObjectMapper();
-//                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-//                Temple temple = mapper.readValue(inputStream,Temple.class);
-//                System.out.println();
-//            }
-
-            HashMap<String, Room> roomsMap = new HashMap<>();
-            HashMap<String, Encounter> encountersMap = new HashMap<>();
-            HashMap<String, Item> itemsMap = new HashMap<>();
-// PARSE JSON -> CLASS
-            InputStream jsonFile =  Main.class.getClassLoader().getResourceAsStream("JSON/maps.json");
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode root = objectMapper.readTree(jsonFile);
-            for (JsonNode rm : root.get("easymap")) {
-                Room roomObj = objectMapper.treeToValue(rm, Room.class);
-                roomsMap.put(roomObj.getNumber() >= 10 ? ("room" + roomObj.getNumber()) : ("room0" + roomObj.getNumber()), roomObj);
-            }
-            for (JsonNode encounter : root.get("encounters")) {
-                Encounter encounterObj = objectMapper.treeToValue(encounter, Encounter.class);
-                encountersMap.put(encounterObj.getName(), encounterObj);
-            }
-            for (JsonNode item : root.get("items")){
-                Item itemObj = objectMapper.treeToValue(item, Item.class);
-                itemsMap.put(itemObj.getName(),itemObj);
-            }
-
-            Game game = new Game(new Player(), roomsMap, encountersMap, itemsMap);
+            Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
+            console.setGameFiles(gameFiles);
+            Game game = new Game(gameFiles.getPlayer(),gameFiles.getEasymap(),gameFiles.getEncounters(),gameFiles.getItems());
             Sound.gameSound(scanner, game); //extracted method
             console.setGame(game);
-            ConsoleInterface.clearScreen();
 
+// Play intro
+            ConsoleInterface.clearScreen();
             console.displayIntro();
             scanner.nextLine();
             ConsoleInterface.clearScreen();

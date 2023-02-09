@@ -177,9 +177,11 @@
     "cougar": {
       "name": "cougar",
       "type": "enemy",
-      "description": "cougar description",
+      "description": "A giant cougar jumps out from the jungle and attacks you!",
       "weakness": ["desert eagle",
-                    "ball o yarn"]
+                    "ball o yarn"],
+      "success": "After everything you've been through, a cougar was the least of your challenges. As such, this challenge was easily overcome.",
+      "failure": -1
     },
     "lion": {
       "name": "lion",
@@ -305,9 +307,19 @@
       "reuse": 1
     }
   },
-  "game": {
+  "gameText": {
     "title": "Temple Jog",
-    "intro": "Welcome Player to Temple Jog! You are a brave soul. Your job is to fail the Aliens attempt from destroying our earth.",
-    "story": "A temple in remote location, but it's actually an Alien ship They’re trying to contact their home world so they can invade Earth. A Major Government power is looking to Nuke the whole area because “It’s the only way to be sure” they don’t contact their home world. You are a part of a special ops team that has intel that states even if the site is nuked, the signal will still be sent. \n Your mission (and you already chose to accept it) is to infiltrate the temple and find a means to disable the communication device and get out before the nuke drops. You will be dropped to the south of the temple nearby. Your exfiltration route will be back the way you came in. Ensure you get back to the pick up with enough time for us to pick you up. If you miss the window, we will not be able to safely extract you."
+    "intro": "The year is 20XX...\n\nA major government power has learned of an alien race that wants to invade Earth\n    and enslave the human race.\nThey have discovered a secret alien ship that has been here for centuries.\nIt has been disguised as a lost hidden temple the whole time!\nTheir plan is to nuke the temple from orbit. As it's\n            \"@|cyan The only way to be sure.|@\"\nFrom intel gained, your special ops team has learned that even if\n    the ship is destroyed, a signal will still be sent to the alien home-world!\nYour mission, that you already chose to accept, is to:\n@|bold,yellow       -Infiltrate the temple and gain access to the communication device.\n      -Find a way to shut it down.\n      -Get back to the landing zone for extraction before the bomb drops!\n      -You have until sun-down at 18:00 local time.|@ \n\n\n\nPress any key to parachute into the LZ...",
+    "gameOver": "████████████████████████████████████████████████████████████████████████████████\n█                                                                              █\n█     ████     ████ ██     ██ ███████    ███████  ██    ██ ███████ ██████      █\n█    ██████   ██ ██ ███   ███ ███████   █████████ ██    ██ ███████ ████████    █\n█   ██       ██  ██ ████ ████ ██        ███   ███ ██    ██ ██      ██    ██    █\n█   ██       ██  ██ █████████ ██        ██     ██ ██    ██ ██      ██    ██    █\n█   ██       ██  ██ ██ ███ ██ █████     ██     ██ ██    ██ █████   ████████    █\n█   ██  ████ ██████ ██  █  ██ █████     ██     ██ ██    ██ █████   ███████     █\n█   ██  ████ ██████ ██     ██ ██        ███   ███ ███  ███ ██      ██  ██      █\n█   ██   ██  ██  ██ ██     ██ ███████   █████████   ████   ███████ ██   ██     █\n█    █████   ██  ██ ██     ██ ███████    ███████     ██    ███████ ██    ██    █\n█                                                                              █\n████████████████████████████████████████████████████████████████████████████████",
+    "winText": "YOU WIN: You managed to infiltrate the alien temple, disable the device and get out before the bomb dropped. As you look back from the helicopter, you see the nuke go off on the horizon. Earth has been spared!",
+    "sortOfWin": "YOU (sort of) WIN: Earth commends you and is forever in your debt! You managed to thwart the alien threat but unfortunately you did not get out in time to escape the nuke! You will be remembered...",
+    "outOfTime": "GAME OVER: You were killed by the atomic bomb blast. The aliens were still able to send a signal home before the blast went off! Earth is DOOMED!",
+    "outOfLife": "GAME OVER: You died trying to save the world, but failed. The aliens were still able to send a signal home before the atomic bomb dropped! Earth is DOOMED!"
+
+  },
+  "player": {
+    "health": 9,
+    "steps": 0,
+    "inventory": []
   }
 }
