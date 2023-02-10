@@ -315,7 +315,6 @@
     "sortOfWin": "YOU (sort of) WIN: Earth commends you and is forever in your debt! You managed to thwart the alien threat but unfortunately you did not get out in time to escape the nuke! You will be remembered...",
     "outOfTime": "GAME OVER: You were killed by the atomic bomb blast. The aliens were still able to send a signal home before the blast went off! Earth is DOOMED!",
     "outOfLife": "GAME OVER: You died trying to save the world, but failed. The aliens were still able to send a signal home before the atomic bomb dropped! Earth is DOOMED!"
-
   },
   "player": {
     "health": 9,

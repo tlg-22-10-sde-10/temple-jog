@@ -1,11 +1,15 @@
 package com.game.templejog.client;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.game.templejog.Game;
 import com.game.templejog.Temple;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.time.LocalDateTime;
 
 public class FileLoader {
     public static Temple jsonLoader(String path) throws IOException {
@@ -17,4 +21,31 @@ public class FileLoader {
             return gameFiles;
         }
     }
+
+    public static String getSavedGames(){
+        // File Name Convention: fileName_Date.json
+        // Get list of available files
+        // Print To User
+        String date = LocalDateTime.now().toString();
+        return String.format("[1] %s",date)+ String.format("\n[2] %s",date);
+    }
+
+    public static File saveGame(Game game){
+        // check that no more than 1 saved games exist in JSON dir
+        File savedGamed;
+        try{
+            savedGamed = new File("savedGame");
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writeValue(savedGamed,game);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return savedGamed;
+    }
+
+    public static void savedGame(){
+        // file
+        // Game Class
+    }
+
 }
