@@ -36,8 +36,7 @@ public class Main {
             // TODO: Resume Saved Game - Load saved game if user chose to
             System.out.println("INPUT"+playerInput);
             Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
-            console.setGameFiles(gameFiles);
-            Game game = new Game(gameFiles.getPlayer(),gameFiles.getEasymap(),gameFiles.getEncounters(),gameFiles.getItems());
+            Game game = new Game(gameFiles);
             Sound.gameSound(scanner, game); //extracted method
             console.setGame(game);
 

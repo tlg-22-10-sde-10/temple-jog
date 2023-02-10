@@ -55,6 +55,8 @@ public class Sound {
     }
 
     public static void stopSound(){
-        clip.stop();
+        if(clip != null) {
+            clip.stop();
+        }
     }
 }
