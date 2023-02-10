@@ -21,22 +21,20 @@ public class Main {
         String playerInput = "";
         while(playerInput.isEmpty()){
 //      Print Saved Games if Any
-            System.out.println("Start a new Game? y/n");
             if(!FileLoader.getSavedGames().isEmpty()){
                 System.out.println("Resume Previous Game?");
-                FileLoader.getSavedGames();
+                System.out.println(FileLoader.getSavedGames());
             }
+            System.out.println("Start a new Game? y/n");
             playerInput = scanner.nextLine();
         }
         playerInput = playerInput.toLowerCase().substring(0, 1);
 
 // LOAD GAME
-        if (playerInput.equals("y") || Integer.parseInt(playerInput)>0 ) {
+        if (playerInput.equals("y") || (Integer.parseInt(playerInput)>0) ) {
 
-
-            System.out.println("Greater than 0");
-            
-
+            // TODO: Resume Saved Game - Load saved game if user chose to
+            System.out.println("INPUT"+playerInput);
             Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
             console.setGameFiles(gameFiles);
             Game game = new Game(gameFiles.getPlayer(),gameFiles.getEasymap(),gameFiles.getEncounters(),gameFiles.getItems());
@@ -68,8 +66,6 @@ public class Main {
                         && game.getPlayer().getHealth() > 0
                         && !(game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone"))
                     );
-            // SAVE GAME? //player,encounters,items,rooms
-//            FileLoader.saveGame(game);
             console.displayEnding();
         }
     }

@@ -9,6 +9,7 @@ import com.game.templejog.Game;
 import com.game.templejog.Temple;
 
 import java.io.*;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 public class FileLoader {
@@ -24,23 +25,24 @@ public class FileLoader {
 
     public static String getSavedGames(){
         // File Name Convention: fileName_Date.json
-        // Get list of available files
+        // Get list of available files , less than 9
         // Print To User
         String date = LocalDateTime.now().toString();
         return String.format("[1] %s",date)+ String.format("\n[2] %s",date);
     }
 
-    public static File saveGame(Game game){
-        // check that no more than 1 saved games exist in JSON dir
+    public static String saveGame(Game game, String saveGameName){
+
         File savedGamed;
         try{
-            savedGamed = new File("savedGame");
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(SerializationFeature.INDENT_OUTPUT,true);
+            savedGamed = new File(String.format("src/main/resources/JSON/%s.json",saveGameName));
             objectMapper.writeValue(savedGamed,game);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return savedGamed;
+        return String.format("Game Saved as %s",saveGameName);
     }
 
     public static void savedGame(){

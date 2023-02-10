@@ -34,7 +34,9 @@ public class TextParser {
             parsed[0] = "help";
         } else if(verb.equals("sound")) {
             parsed[0] = "sound";
-        } else {
+        } else if(verb.equals("save")) {
+            parsed[0] = "save";
+        }else {
             parsed[0] = "invalid";
         }
 

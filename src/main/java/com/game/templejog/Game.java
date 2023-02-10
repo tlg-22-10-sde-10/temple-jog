@@ -2,6 +2,8 @@ package com.game.templejog;
 
 import com.game.templejog.client.FileLoader;
 
+import java.io.File;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Game {
@@ -42,8 +44,22 @@ public class Game {
         if(verb.equals("help")) return processHelping();
         if(verb.equals("invalid")) return processInvalid();
         if(verb.equals("sound")) return Sound.turningSound(noun, this);
-//        if(verb.equals("save")) return FileLoader.saveGame(this);
+        if(verb.equals("save")) return processSaving();
         return "";
+    }
+    private String processSaving(){
+        // Give user ability to meaningfully name their saved game?
+        //  Sanitize gameSessionName - check for valid user inputs
+        //  Generate a new random default string if name not provided by player
+        //  Check named game does not exist (not including timestamp)
+
+        // TODO check that no more than N games exist in JSON dir
+
+        LocalDateTime timeStamp = LocalDateTime.now();
+        String name = String.format("session%s@%s",this.hashCode() ,timeStamp);
+        FileLoader.saveGame(this, name);
+        setQuitGame(!getQuitGame());
+        return "Saving Game Session...";
     }
     private String processQuitting(){
         System.out.println("Are you sure you want to quit? [Type 'y' or 'n']");
@@ -77,7 +93,6 @@ public class Game {
 
         return "Cannot go in that direction...";
     }
-
     private void currentRoomSound() {
         String currentRoomSound = getCurrentRoom().getSound();
         if (getPlaySound()) {
@@ -87,7 +102,6 @@ public class Game {
             }
         }
     }
-
     private String processLooking(String noun){
         if(noun.isEmpty()) return InvalidNounInput.BAD_LOOK.getWarning();
 
@@ -118,7 +132,6 @@ public class Game {
         if(noun.isEmpty()) return InvalidNounInput.BAD_USE.getWarning();
         return subprocessCheckItemsAndEncounters(noun);
     }
-//    private String processHelping(String noun){
     private String processHelping(){
         return "Go - Use 'go [direction]' command to move to designated direction \n" +
                 "Look - Use 'look [item]' for item description \n" +
