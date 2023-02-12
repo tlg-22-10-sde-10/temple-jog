@@ -234,7 +234,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
     public void displayEnding() throws InterruptedException {
         if (game.getCommunicatorOff()) {
-            if (getGame().getPlayer().getSteps() > 24 || getGame().getPlayer().getHealth() <= 0) {
+            if (getGame().getPlayer().getSteps() >= 24 || getGame().getPlayer().getHealth() <= 0) {
                 clearScreen();
                 System.out.println(getGame().getGameText().get("gameOverNuked"));
                 TimeUnit.SECONDS.sleep(5L);
