@@ -31,7 +31,8 @@ public class Main {
         }
         playerInput = playerInput.toLowerCase().substring(0, 1);
 // LOAD GAME
-        if (playerInput.equals("y") || (Integer.parseInt(playerInput)>0) ) {
+        if(playerInput.equalsIgnoreCase("n")){ return; }
+        else if (playerInput.equals("y") || (Integer.parseInt(playerInput)>0) ) {
 
             // DONE Resume Saved Game - Load saved game if user chose to
             //      - don't load game intro, keep difficulty level
@@ -85,8 +86,11 @@ public class Main {
                     && game.getPlayer().getSteps() < 24
                     && game.getPlayer().getHealth() > 0
                     && !(game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")));
-            console.displayResult("You look down as your alarm goes off. It's 18:00....",0);
-            console.displayEnding();
+            if(!game.getScannerString().equals("save") || !game.getScannerString().equals("quit")){
+                console.displayResult("You look down as your alarm goes off. It's 18:00....",0);
+                console.displayEnding();
+            }
+            else System.out.println(game.getGameText().get("saveGame"));
         }
     }
 
