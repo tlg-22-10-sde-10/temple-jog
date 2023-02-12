@@ -31,11 +31,11 @@ public class Main {
         }
         playerInput = playerInput.toLowerCase().substring(0, 1);
 // LOAD GAME
-        if(playerInput.equalsIgnoreCase("n")){ return; }
+        if(playerInput.equalsIgnoreCase("n")){
+            return;
+        }
         else if (playerInput.equals("y") || (Integer.parseInt(playerInput)>0) ) {
 
-            // DONE Resume Saved Game - Load saved game if user chose to
-            //      - don't load game intro, keep difficulty level
             String path = FileLoader.getGameFilePath(playerInput);
             Temple gameFiles = FileLoader.jsonLoader(path);
             Game game = new Game(gameFiles);
@@ -87,6 +87,7 @@ public class Main {
                     && game.getPlayer().getHealth() > 0
                     && !(game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")));
             if(!game.getScannerString().equals("save") || !game.getScannerString().equals("quit")){
+//TODO: printing on 'save'
                 console.displayResult("You look down as your alarm goes off. It's 18:00....",0);
                 console.displayEnding();
             }
