@@ -36,6 +36,14 @@ JSON with Java [Jackson ObjectMapper](https://jenkov.com/tutorials/java-json/jac
 
 JANSI Colors [JANSI GitHub](https://fusesource.github.io/jansi/)
 
+## How to install Temple Jog?
+1. For Window users, git bash is recommended as command tool and for Mac users, terminal is recommended. To download git bash, follow the link [here](https://gitforwindows.org/). 
+2. Verify JDK 11 or higher is installed by using "java --version" in terminal 
+3. Visit the download link [here](https://github.com/tlg-22-10-sde-10/temple-jog/releases)
+4. Download the latest version of temple_jog jar file in your designated directory
+5. Open your terminal and change your directory to jar file location
+6. Type "java -jar [latest temple jog jar file name]" to start the game. Please follow the instructions in the game for the best player experience.
+
 ## About the Devs
 
 Lorenzo Ortega [GitHub Profile](https://github.com/antoni909)

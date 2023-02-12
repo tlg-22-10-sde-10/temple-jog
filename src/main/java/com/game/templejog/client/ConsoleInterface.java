@@ -56,13 +56,19 @@ public class ConsoleInterface { // Previously TitleScreen
         StringBuilder scene = new StringBuilder();
         String currentRoom = game.getCurrentRoom().getName();
         Integer health = game.getPlayer().getHealth();
+        String[] colors;
 
         // Top Bar Setup
         int hoursPlayed = game.getPlayer().getSteps() * 15;
         int hours = hoursPlayed / 60;
         int minutes = hoursPlayed % 60;
         int time = 1200 + (100 * hours) + minutes;
-        String status = String.format(ansi().render("Location:@|cyan  %s|@ █ Health:@|cyan  %s|@ █ TIME:@|cyan  %s|@").toString(), currentRoom, health, time > 999 ? Integer.toString(time) : "0" + time);
+        colors = processColor();
+        String status = String.format("Location:@|%s  %s|@ █ Health:@|%s  %s|@ █ TIME:@|%s  %s|@",
+                colors[0], currentRoom,
+                colors[1], health,
+                colors[2], time > 999 ? Integer.toString(time) : "0" + time);
+        status = ansi().render(status).toString();
         String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - (status.length() - 24)) / 2 + status.length()) + "s";
         String endSpace = "%" + ((CONSOLE_WIDTH - (status.length() - 24)) / 2) + "s"; // "%20s"
         boolean hasEncounters = !getGame().getCurrentRoom().getEncounters_to().isEmpty();
@@ -228,7 +234,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
     public void displayEnding() throws InterruptedException {
         if (game.getCommunicatorOff()) {
-            if (getGame().getPlayer().getSteps() >= 24 || getGame().getPlayer().getHealth() <= 0) {
+            if (getGame().getPlayer().getSteps() > 24 || getGame().getPlayer().getHealth() <= 0) {
                 clearScreen();
                 System.out.println(getGame().getGameText().get("gameOverNuked"));
                 TimeUnit.SECONDS.sleep(5L);
@@ -256,6 +262,36 @@ public class ConsoleInterface { // Previously TitleScreen
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    private String[] processColor() {
+        String locColor,timeColor,healthColor;
+
+        if(game.getPlayer().getHealth() <= 2) {
+            healthColor = "red";
+        } else if(game.getPlayer().getHealth() <= 5) {
+            healthColor = "yellow";
+        } else {
+            healthColor ="cyan";
+        }
+
+        if(game.getPlayer().getSteps() >= 20){
+            timeColor = "red";
+        } else if(game.getPlayer().getSteps() >= 12) {
+            timeColor = "yellow";
+        } else {
+            timeColor = "cyan";
+        }
+
+        if(timeColor.equals("red") || healthColor.equals("red")) {
+            locColor = "red";
+        } else if (timeColor.equals("yellow") || healthColor.equals("yellow")) {
+            locColor = "yellow";
+        } else {
+            locColor = "cyan";
+        }
+
+        return new String[]{locColor,healthColor,timeColor};
     }
 
 /*                      ACCESSORS                               */

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import static java.lang.System.exit;
+
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -25,7 +27,8 @@ public class Main {
                 System.out.println("Resume Previous Game?");
                 System.out.println(FileLoader.getSavedGames());
             }
-            System.out.println("Start a new Game? y/n");
+//            System.out.println("Start a new Game? y/n");
+            System.out.println(UserInput.START_GAME.getUserPrompt());
             playerInput = scanner.nextLine();
         }
         playerInput = playerInput.toLowerCase().substring(0, 1);
@@ -37,9 +40,20 @@ public class Main {
             System.out.println("INPUT"+playerInput);
             Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
             Game game = new Game(gameFiles);
-            Sound.gameSound(scanner, game); //extracted method
             console.setGame(game);
+            playerInput = "";
+            do {
+                System.out.println(UserInput.DIFFICULTY_LEVEL.getUserPrompt());
+                playerInput = scanner.nextLine();
 
+                if(TextParser.parseText(playerInput)[0].equals("quit")) {
+                    System.out.println("Quitting... ");
+                    exit(0);
+                }
+                playerInput = TextParser.parseDifficulty(playerInput);
+            } while(playerInput.equals(""));
+            game.processDifficulty(playerInput);
+            Sound.gameSound(scanner, game);
 // Play intro
             ConsoleInterface.clearScreen();
             console.displayIntro();
@@ -55,7 +69,7 @@ public class Main {
             do {
                 ConsoleInterface.clearScreen();
                 console.displayScene();
-                System.out.print("What do you want to do?\n>");
+                System.out.println(UserInput.USER_ACTION.getUserPrompt());
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 ConsoleInterface.clearScreen();

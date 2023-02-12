@@ -44,7 +44,7 @@ public class Sound {
     }
 
     public static void gameSound(Scanner scanner, Game game) {
-        System.out.println("Do you want the music on? [y/n]"); //Music on or off functionality
+        System.out.println(UserInput.TURN_MUSIC.getUserPrompt());
         String musicOn = scanner.nextLine();
         if (musicOn.equalsIgnoreCase("y")){
             game.setPlaySound(true);

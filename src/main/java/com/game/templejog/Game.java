@@ -19,6 +19,7 @@ public class Game {
     private HashMap<String,String> gameText;
     private Boolean playSound;
 
+// CONSTRUCTORS
     public Game(Temple temple) {
         // Load in files
         setRooms(temple.getEasymap());
@@ -43,6 +44,28 @@ public class Game {
         this.encounters = encounters;
         setCurrentRoom(getRooms().get("room01"));
         setCommunicatorOff(false);
+    }
+// GAME SETUP
+    public void processDifficulty(String difficulty) {
+        // Game is already setup for easy from the start so no need for condition
+        if (difficulty.equals("medium")) {
+            mediumSetup();
+        } else if(difficulty.equals("hard")) {
+            hardSetup();
+        }
+    }
+
+    private void mediumSetup() {
+        getPlayer().setHealth(5);
+        getPlayer().setSteps(4);
+    }
+
+    private void hardSetup() {
+        getPlayer().setHealth(1);
+        getPlayer().setSteps(8);
+        getItems().get("desert eagle").setReuse(0);
+        getItems().get("machete").setReuse(0);
+        getItems().get("crystal femur").setReuse(1);
     }
 
 // CONTROLLERS
@@ -76,7 +99,7 @@ public class Game {
         return "Saving Game Session...";
     }
     private String processQuitting(){
-        System.out.println("Are you sure you want to quit? [Type 'y' or 'n']");
+        System.out.println(UserInput.END_GAME.getUserPrompt());
         updateScannerString();
         String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
         if( playerResponse.equals("y") ) setQuitGame(!getQuitGame());
@@ -199,7 +222,6 @@ public class Game {
             getCurrentRoom().getEncounters_to().remove(currentEncounterName);
             return String.format("Success!!!... %s",encounter.getSuccess());
     }
-
     private String cowardiceDamage(){
         String outputMessage = "";
         if(!getCurrentRoom().getEncounters_to().isEmpty()){
