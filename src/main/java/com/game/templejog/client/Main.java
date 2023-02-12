@@ -33,34 +33,41 @@ public class Main {
 // LOAD GAME
         if (playerInput.equals("y") || (Integer.parseInt(playerInput)>0) ) {
 
-            // TODO Resume Saved Game - Load saved game if user chose to
-
+            // DONE Resume Saved Game - Load saved game if user chose to
+            //      - don't load game intro, keep difficulty level
             String path = FileLoader.getGameFilePath(playerInput);
-//            Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
             Temple gameFiles = FileLoader.jsonLoader(path);
             Game game = new Game(gameFiles);
+
+            if(playerInput.equals("y")){
+                playerInput = "";
+                do {
+                    System.out.println(UserInput.DIFFICULTY_LEVEL.getUserPrompt());
+                    playerInput = scanner.nextLine();
+
+                    if(TextParser.parseText(playerInput)[0].equals("quit")) {
+                        System.out.println("Quitting... ");
+                        exit(0);
+                    }
+                    playerInput = TextParser.parseDifficulty(playerInput);
+                } while(playerInput.equals(""));
+                // Setup Difficulty
+                game.processDifficulty(playerInput);
+            }
             console.setGame(game);
-            playerInput = "";
-            do {
-                System.out.println(UserInput.DIFFICULTY_LEVEL.getUserPrompt());
-                playerInput = scanner.nextLine();
-
-                if(TextParser.parseText(playerInput)[0].equals("quit")) {
-                    System.out.println("Quitting... ");
-                    exit(0);
-                }
-                playerInput = TextParser.parseDifficulty(playerInput);
-            } while(playerInput.equals(""));
-            game.processDifficulty(playerInput);
             Sound.gameSound(scanner, game);
-// Play intro
-            ConsoleInterface.clearScreen();
-            console.displayIntro();
-            scanner.nextLine();
-            ConsoleInterface.clearScreen();
 
-/* Stop the background music when entering landing zone */
-            if(game.getPlaySound()){
+            // Play intro
+            ConsoleInterface.clearScreen();
+            if(TextParser.DIFFICULTIES.contains(playerInput)) {
+                console.displayIntro();
+                scanner.nextLine();
+                ConsoleInterface.clearScreen();
+            }
+
+            // Play Sound
+            /* Stop the background music when entering landing zone */
+            if (game.getPlaySound()) {
                 Sound.stopSound();
                 Sound.themeSound("sounds/landing_zone.wav");
             }

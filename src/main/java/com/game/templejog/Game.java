@@ -42,7 +42,8 @@ public class Game {
         setGameText(temple.getGameText());
 
         // Set initial conditions
-        setCurrentRoom(getRooms().get("room01"));
+//        setCurrentRoom(getRooms().get("room01"));
+        setCurrentRoom(getRooms().get(getPlayer().getLastKnownPos()));
         setCommunicatorOff(false);
         setQuitGame(false);
     }
@@ -67,12 +68,10 @@ public class Game {
             hardSetup();
         }
     }
-
     private void mediumSetup() {
         getPlayer().setHealth(5);
         getPlayer().setSteps(4);
     }
-
     private void hardSetup() {
         getPlayer().setHealth(1);
         getPlayer().setSteps(8);
@@ -104,6 +103,10 @@ public class Game {
         //  Check named game does not exist (not including timestamp)
 
         // TODO check that no more than N games exist in JSON.SAVED dir
+        // GET/SET LKP
+
+
+        String confirmSavingPlayerProgress = saveCurrentPlayerProgress();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
         String timeStamp = LocalDateTime.now().format(formatter);
@@ -111,8 +114,8 @@ public class Game {
         Integer savedGamesCount = FileLoader.savedGamesCount();
         String name = String.format("session-%d@%s",savedGamesCount,timeStamp);
         FileLoader.saveGame(this, name);
-        setQuitGame(!getQuitGame());
-        return String.format("Saving Game Session...%s",name);
+
+        return String.format("Saving Game under...%s",name.split("@")[0]);
     }
     private String processQuitting(){
         System.out.println(UserInput.END_GAME.getUserPrompt());
@@ -193,6 +196,20 @@ public class Game {
     }
 
 //  Helper Methods
+    private String saveCurrentPlayerProgress(){
+        Integer roomNumber = getCurrentRoom().getNumber();
+        String roomName = "";
+        String message = "";
+        for (Map.Entry<String, Room> roomEntry : getRooms().entrySet()) {
+            if(roomEntry.getValue().getNumber() == roomNumber){
+                roomName = roomEntry.getKey();
+                message = "Saving Game Progress...";
+            }
+        }
+        getPlayer().setLastKnownPos(roomName);
+        setQuitGame(!getQuitGame());
+        return message;
+    }
     private String subprocessCheckItemsAndEncounters(String noun){
 
         Integer inventoryIndex = getPlayer().inventoryHasItem(noun);
