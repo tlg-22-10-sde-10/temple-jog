@@ -22,23 +22,22 @@ public class Main {
         ConsoleInterface.displayTitle();
         String playerInput = "";
         while(playerInput.isEmpty()){
-//      Print Saved Games if Any
-            if(!FileLoader.getSavedGames().isEmpty()){
-                System.out.println("Resume Previous Game?");
-                System.out.println(FileLoader.getSavedGames());
+            if(!FileLoader.printAllSavedGames().isEmpty()){
+                System.out.println("Select From Saved Game/s: ");
+                System.out.println(FileLoader.printAllSavedGames());
             }
-//            System.out.println("Start a new Game? y/n");
             System.out.println(UserInput.START_GAME.getUserPrompt());
             playerInput = scanner.nextLine();
         }
         playerInput = playerInput.toLowerCase().substring(0, 1);
-
 // LOAD GAME
         if (playerInput.equals("y") || (Integer.parseInt(playerInput)>0) ) {
 
-            // TODO: Resume Saved Game - Load saved game if user chose to
-            System.out.println("INPUT"+playerInput);
-            Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
+            // TODO Resume Saved Game - Load saved game if user chose to
+
+            String path = FileLoader.getGameFilePath(playerInput);
+//            Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
+            Temple gameFiles = FileLoader.jsonLoader(path);
             Game game = new Game(gameFiles);
             console.setGame(game);
             playerInput = "";

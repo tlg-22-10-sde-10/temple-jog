@@ -246,7 +246,7 @@
       "description": "Ahhhhhh!! You have fallen into a black pit at least 10 feet deep!",
       "weakness": [],
       "success": "pop",
-      "outcome": -1
+      "failure": -1
     },
     "locked door": {
       "name": "locked door",
@@ -254,7 +254,7 @@
       "description": "...strange, this door is locked.",
       "weakness": ["key"],
       "success": "..Or is it? The door creaks open, revealing a dark and mysterious chamber beyond. The air is thick with the smell of metal and ozone, and the hum of unfamiliar machinery fills the room. The walls are slick with some sort of alien lubricant, and strange markings adorn the surface. The flickering lights above cast eerie shadows on the walls, illuminating the strange and alien technology within.",
-      "outcome": -1
+      "failure": -1
     }
   },
   "items": {

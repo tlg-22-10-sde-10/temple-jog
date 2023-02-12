@@ -1,23 +1,36 @@
 package com.game.templejog;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.game.templejog.client.FileLoader;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Game {
     // MODEL
+    @JsonIgnore
     private Boolean quitGame;
+    @JsonIgnore
     private String scannerString;
-    private HashMap<String, Room> rooms;
-    private HashMap<String, Encounter> encounters;
-    private HashMap<String, Item> items;
-    private Player player;
+    @JsonIgnore
     private Room currentRoom;
+    @JsonIgnore
     private Boolean communicatorOff;
-    private HashMap<String,String> gameText;
+    @JsonIgnore
     private Boolean playSound;
+    @JsonProperty("easymap")
+    private HashMap<String, Room> rooms;
+    @JsonProperty
+    private HashMap<String, Encounter> encounters;
+    @JsonProperty
+    private HashMap<String, Item> items;
+    @JsonProperty
+    private HashMap<String,String> gameText;
+    @JsonProperty
+    private Player player;
 
 // CONSTRUCTORS
     public Game(Temple temple) {
@@ -90,13 +103,16 @@ public class Game {
         //  Generate a new random default string if name not provided by player
         //  Check named game does not exist (not including timestamp)
 
-        // TODO check that no more than N games exist in JSON dir
+        // TODO check that no more than N games exist in JSON.SAVED dir
 
-        LocalDateTime timeStamp = LocalDateTime.now();
-        String name = String.format("session%s@%s",this.hashCode() ,timeStamp);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
+        String timeStamp = LocalDateTime.now().format(formatter);
+
+        Integer savedGamesCount = FileLoader.savedGamesCount();
+        String name = String.format("session-%d@%s",savedGamesCount,timeStamp);
         FileLoader.saveGame(this, name);
         setQuitGame(!getQuitGame());
-        return "Saving Game Session...";
+        return String.format("Saving Game Session...%s",name);
     }
     private String processQuitting(){
         System.out.println(UserInput.END_GAME.getUserPrompt());
