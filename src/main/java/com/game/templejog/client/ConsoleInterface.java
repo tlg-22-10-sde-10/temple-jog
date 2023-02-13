@@ -244,7 +244,8 @@ public class ConsoleInterface { // Previously TitleScreen
                 System.out.println(ansi().fgBrightGreen().render(getGame().getGameText().get("gameOver")).fgDefault());
                 displayResult(getGame().getGameText().get("winText"), 7);
             }
-        } else {
+        }
+        else {
             if (getGame().getPlayer().getSteps() >= 24) {
                 clearScreen();
                 System.out.print(getGame().getGameText().get("gameOverNuked"));

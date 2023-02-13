@@ -1,19 +1,36 @@
 package com.game.templejog;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.game.templejog.client.FileLoader;
+
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Game {
     // MODEL
+    @JsonIgnore
     private Boolean quitGame;
+    @JsonIgnore
     private String scannerString;
-    private HashMap<String, Room> rooms;
-    private HashMap<String, Encounter> encounters;
-    private HashMap<String, Item> items;
-    private Player player;
+    @JsonIgnore
     private Room currentRoom;
+    @JsonIgnore
     private Boolean communicatorOff;
-    private HashMap<String,String> gameText;
+    @JsonIgnore
     private Boolean playSound;
+    @JsonProperty("easymap")
+    private HashMap<String, Room> rooms;
+    @JsonProperty
+    private HashMap<String, Encounter> encounters;
+    @JsonProperty
+    private HashMap<String, Item> items;
+    @JsonProperty
+    private HashMap<String,String> gameText;
+    @JsonProperty
+    private Player player;
 
 // CONSTRUCTORS
     public Game(Temple temple) {
@@ -25,7 +42,8 @@ public class Game {
         setGameText(temple.getGameText());
 
         // Set initial conditions
-        setCurrentRoom(getRooms().get("room01"));
+//        setCurrentRoom(getRooms().get("room01"));
+        setCurrentRoom(getRooms().get(getPlayer().getLastKnownPos()));
         setCommunicatorOff(false);
         setQuitGame(false);
     }
@@ -50,12 +68,10 @@ public class Game {
             hardSetup();
         }
     }
-
     private void mediumSetup() {
         getPlayer().setHealth(5);
         getPlayer().setSteps(4);
     }
-
     private void hardSetup() {
         getPlayer().setHealth(1);
         getPlayer().setSteps(8);
@@ -77,7 +93,33 @@ public class Game {
         if(verb.equals("help")) return processHelping();
         if(verb.equals("invalid")) return processInvalid();
         if(verb.equals("sound")) return Sound.turningSound(noun, this);
+        if(verb.equals("save")) return processSaving();
         return "";
+    }
+    private String processSaving(){
+        // DONE check that no more than 3 games exist in JSON.SAVED dir
+
+        StringBuilder outputMessage = new StringBuilder();
+        String gameNumber = "";
+//        if(FileLoader.maxNumberOfSaves()){
+//            System.out.println("Max Saves, Select Game to Overwrite");
+//            System.out.println(FileLoader.printAllSavedGames());
+//            updateScannerString();
+//            Boolean isDeleted = deleteASavedGame(getScannerString());
+//            if(isDeleted) outputMessage.append("Success...");
+//            gameNumber = getScannerString();
+//        }
+
+        String inProgress = saveCurrentPlayerProgress();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
+        String timeStamp = LocalDateTime.now().format(formatter);
+        gameNumber = (!gameNumber.isEmpty())? gameNumber:FileLoader.savedGamesCount();
+
+        String name = String.format("session-%s@%s",gameNumber,timeStamp);
+        FileLoader.saveGame(this, name);
+
+        outputMessage.append(String.format("%s Saving Game under: %s",inProgress,name.split("@")[0]));
+        return outputMessage.toString();
     }
     private String processQuitting(){
         System.out.println(UserInput.END_GAME.getUserPrompt());
@@ -150,7 +192,6 @@ public class Game {
         if(noun.isEmpty()) return InvalidNounInput.BAD_USE.getWarning();
         return subprocessCheckItemsAndEncounters(noun);
     }
-//    private String processHelping(String noun){
     private String processHelping(){
         return getGameText().get("gameHelp");
     }
@@ -159,6 +200,29 @@ public class Game {
     }
 
 //  Helper Methods
+    private String saveCurrentPlayerProgress(){
+        Integer roomNumber = getCurrentRoom().getNumber();
+        String roomName = "";
+        String message = "";
+        for (Map.Entry<String, Room> roomEntry : getRooms().entrySet()) {
+            if(roomEntry.getValue().getNumber() == roomNumber){
+                roomName = roomEntry.getKey();
+                message = "Saving Game Progress...";
+            }
+        }
+        getPlayer().setLastKnownPos(roomName);
+        setQuitGame(!getQuitGame());
+        return message;
+    }
+    private Boolean deleteASavedGame(String targetGameNumber){
+        String path = FileLoader.getSavedGamePath(targetGameNumber);
+        File gameFile = new File(path);
+        if( gameFile.exists() ){
+            if(gameFile.delete()) return true;
+            else return false;
+        }
+        return false;
+    }
     private String subprocessCheckItemsAndEncounters(String noun){
 
         Integer inventoryIndex = getPlayer().inventoryHasItem(noun);

@@ -8,7 +8,8 @@ import java.util.List;
 public class Encounter {
     String name,type,description,success;
     List<String> weakness;
-    Integer failure,outcome;
+//    Integer failure,outcome;
+    Integer failure;
 
     public Encounter(){}
 
@@ -60,11 +61,11 @@ public class Encounter {
         this.failure = failure;
     }
 
-    public Integer getOutcome() {
-        return outcome;
-    }
+//    public Integer getOutcome() {
+//        return outcome;
+//    }
 
-    public void setOutcome(Integer outcome) {
-        this.outcome = outcome;
-    }
+//    public void setOutcome(Integer outcome) {
+//        this.outcome = outcome;
+//    }
 }
