@@ -97,6 +97,13 @@
       "damage" : 5,
       "reuse" : 0
     },
+    "desert eagle" : {
+      "name" : "Desert Eagle",
+      "room" : "room02",
+      "description" : "The Mark XIX Desert Eagle is a gas-operated, semi-automatic pistol with a 7 round capacity. The gun measures 10.75” in length with a 6” barrel. Width is 1.25”, height 6.25” and the weight with an empty magazine is approximately 72 ounces. It has a trigger reach of 2.75” and a sight radius of 8.5” with the 6” barrel. - magnum research",
+      "damage" : 5,
+      "reuse" : 0
+    },
     "flamethrower" : {
       "name" : "Flamethrower",
       "room" : "room06",
@@ -147,9 +154,9 @@
   },
   "player" : {
     "health" : 1,
-    "steps" : 11,
+    "steps" : 8,
     "inventory" : [ ],
-    "lastKnownPos" : "room06"
+    "lastKnownPos" : "room01"
   },
   "easymap" : {
     "room10" : {
@@ -190,10 +197,10 @@
       "south" : "room01",
       "north" : "room03",
       "east" : "room05",
-      "items" : [ ],
+      "items" : [ "desert eagle" ],
       "encounters_to" : [ ],
       "encounters_from" : [ "cougar" ],
-      "hasBeenVisited" : true,
+      "hasBeenVisited" : false,
       "isLocked" : false,
       "sound" : "sounds/jungle_path.wav"
     },
@@ -236,9 +243,9 @@
       "north" : "room06",
       "east" : "",
       "items" : [ ],
-      "encounters_to" : [ "pit" ],
+      "encounters_to" : [ "face mugger", "pit" ],
       "encounters_from" : [ ],
-      "hasBeenVisited" : true,
+      "hasBeenVisited" : false,
       "isLocked" : false,
       "sound" : "sounds/face_mugging_torment.wav"
     },
@@ -253,7 +260,7 @@
       "items" : [ "flamethrower" ],
       "encounters_to" : [ ],
       "encounters_from" : [ "lion" ],
-      "hasBeenVisited" : true,
+      "hasBeenVisited" : false,
       "isLocked" : false,
       "sound" : "sounds/central_chamber.wav"
     },

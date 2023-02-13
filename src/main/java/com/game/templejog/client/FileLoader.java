@@ -26,8 +26,6 @@ public class FileLoader {
         }
     }
     public static String printAllSavedGames(){
-// TODO: refactor to use comparator to sort by session number
-// DONE: collect and sort by game session number, Order is currently not guaranteed by .listFiles()
         File[] SAVED_GAMES_LIST = new File("src/main/resources/JSON/SAVED").listFiles();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
         DateTimeFormatter readableFormat = DateTimeFormatter.ofPattern("yyyy MMM dd 'at' HH:mm:ss");
@@ -48,13 +46,13 @@ public class FileLoader {
         }
         return outputNames.toString();
     }
-    public static Integer savedGamesCount(){
+    public static String savedGamesCount(){
         File[] SAVED_GAMES_LIST = new File("src/main/resources/JSON/SAVED").listFiles();
         int count = 1;
         if ((SAVED_GAMES_LIST != null )&&( SAVED_GAMES_LIST.length>0)) {
             for (File session : SAVED_GAMES_LIST) { count+=1; }
         }
-        return count;
+        return String.valueOf(count);
     }
     public static String saveGame(Game game, String newSave){
         String PATH = "src/main/resources/JSON/SAVED/";
@@ -66,6 +64,10 @@ public class FileLoader {
             objectMapper.writeValue(savedGamed,game);
         } catch (IOException e) { throw new RuntimeException(e); }
         return String.format("Game Saved as %s",newSave);
+    }
+    public static Boolean maxNumberOfSaves(){
+        File[] SAVED_GAMES_LIST = new File("src/main/resources/JSON/SAVED").listFiles();
+        return (SAVED_GAMES_LIST.length > 2);
     }
     public static String getSavedGamePath(String targetSavedGame){
         File[] SAVED_GAMES_LIST = new File("src/main/resources/JSON/SAVED").listFiles();

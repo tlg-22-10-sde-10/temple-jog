@@ -97,25 +97,29 @@ public class Game {
         return "";
     }
     private String processSaving(){
-        // Give user ability to meaningfully name their saved game?
-        //  Sanitize gameSessionName - check for valid user inputs
-        //  Generate a new random default string if name not provided by player
-        //  Check named game does not exist (not including timestamp)
+        // DONE check that no more than 3 games exist in JSON.SAVED dir
 
-        // TODO check that no more than N games exist in JSON.SAVED dir
-        // GET/SET LKP
+        StringBuilder outputMessage = new StringBuilder();
+        String gameNumber = "";
+        if(FileLoader.maxNumberOfSaves()){
+            System.out.println("Max Saves, Select Game to Overwrite");
+            System.out.println(FileLoader.printAllSavedGames());
+            updateScannerString();
+            Boolean isDeleted = deleteASavedGame(getScannerString());
+            if(isDeleted) outputMessage.append("Success...");
+            gameNumber = getScannerString();
+        }
 
-
-        String confirmSavingPlayerProgress = saveCurrentPlayerProgress();
-
+        String inProgress = saveCurrentPlayerProgress();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
         String timeStamp = LocalDateTime.now().format(formatter);
+        gameNumber = (!gameNumber.isEmpty())? gameNumber:FileLoader.savedGamesCount();
 
-        Integer savedGamesCount = FileLoader.savedGamesCount();
-        String name = String.format("session-%d@%s",savedGamesCount,timeStamp);
+        String name = String.format("session-%s@%s",gameNumber,timeStamp);
         FileLoader.saveGame(this, name);
 
-        return String.format("Saving Game under...%s",name.split("@")[0]);
+        outputMessage.append(String.format("%s Saving Game under: %s",inProgress,name.split("@")[0]));
+        return outputMessage.toString();
     }
     private String processQuitting(){
         System.out.println(UserInput.END_GAME.getUserPrompt());
@@ -209,6 +213,15 @@ public class Game {
         getPlayer().setLastKnownPos(roomName);
         setQuitGame(!getQuitGame());
         return message;
+    }
+    private Boolean deleteASavedGame(String targetGameNumber){
+        String path = FileLoader.getSavedGamePath(targetGameNumber);
+        File gameFile = new File(path);
+        if( gameFile.exists() ){
+            if(gameFile.delete()) return true;
+            else return false;
+        }
+        return false;
     }
     private String subprocessCheckItemsAndEncounters(String noun){
 

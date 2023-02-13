@@ -61,7 +61,7 @@ public class Main {
             // Play intro
             ConsoleInterface.clearScreen();
             if(TextParser.DIFFICULTIES.contains(playerInput)) {
-                console.displayIntro();
+//                console.displayIntro();
                 scanner.nextLine();
                 ConsoleInterface.clearScreen();
             }

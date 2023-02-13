@@ -102,7 +102,7 @@
       "room" : "room02",
       "description" : "The Mark XIX Desert Eagle is a gas-operated, semi-automatic pistol with a 7 round capacity. The gun measures 10.75” in length with a 6” barrel. Width is 1.25”, height 6.25” and the weight with an empty magazine is approximately 72 ounces. It has a trigger reach of 2.75” and a sight radius of 8.5” with the 6” barrel. - magnum research",
       "damage" : 5,
-      "reuse" : 0
+      "reuse" : 2
     },
     "flamethrower" : {
       "name" : "Flamethrower",
@@ -123,14 +123,14 @@
       "room" : "room08",
       "description" : "It is painfully clear that this Amethyst Crystal Femur is shaped like a human femur, it is also painfully clear that these aliens must be cheap because Amethyst crystals are some of the cheapest crystals you can get in the market these days.",
       "damage" : 0,
-      "reuse" : 1
+      "reuse" : 99
     },
     "machete" : {
       "name" : "Machete",
       "room" : "room04",
       "description" : "Looks like this machete has seen better days, it looks rusty, has a bent blade and is missing a proper grip. ",
       "damage" : 5,
-      "reuse" : 0
+      "reuse" : 2
     },
     "key" : {
       "name" : "Key",
@@ -153,10 +153,10 @@
     "saveGame" : "GAME SAVED: Thank you for saving, until next time"
   },
   "player" : {
-    "health" : 1,
-    "steps" : 10,
+    "health" : 9,
+    "steps" : 0,
     "inventory" : [ ],
-    "lastKnownPos" : "room05"
+    "lastKnownPos" : "room01"
   },
   "easymap" : {
     "room10" : {
@@ -200,7 +200,7 @@
       "items" : [ "desert eagle" ],
       "encounters_to" : [ ],
       "encounters_from" : [ "cougar" ],
-      "hasBeenVisited" : true,
+      "hasBeenVisited" : false,
       "isLocked" : false,
       "sound" : "sounds/jungle_path.wav"
     },
@@ -245,7 +245,7 @@
       "items" : [ ],
       "encounters_to" : [ "face mugger", "pit" ],
       "encounters_from" : [ ],
-      "hasBeenVisited" : true,
+      "hasBeenVisited" : false,
       "isLocked" : false,
       "sound" : "sounds/face_mugging_torment.wav"
     },
