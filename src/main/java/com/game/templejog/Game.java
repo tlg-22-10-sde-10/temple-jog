@@ -101,14 +101,14 @@ public class Game {
 
         StringBuilder outputMessage = new StringBuilder();
         String gameNumber = "";
-        if(FileLoader.maxNumberOfSaves()){
-            System.out.println("Max Saves, Select Game to Overwrite");
-            System.out.println(FileLoader.printAllSavedGames());
-            updateScannerString();
-            Boolean isDeleted = deleteASavedGame(getScannerString());
-            if(isDeleted) outputMessage.append("Success...");
-            gameNumber = getScannerString();
-        }
+//        if(FileLoader.maxNumberOfSaves()){
+//            System.out.println("Max Saves, Select Game to Overwrite");
+//            System.out.println(FileLoader.printAllSavedGames());
+//            updateScannerString();
+//            Boolean isDeleted = deleteASavedGame(getScannerString());
+//            if(isDeleted) outputMessage.append("Success...");
+//            gameNumber = getScannerString();
+//        }
 
         String inProgress = saveCurrentPlayerProgress();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
